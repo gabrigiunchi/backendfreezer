@@ -25,6 +25,7 @@ class SecurityConfig(
             "/swagger-resources/**",
             "/v2/api-docs",
             "/webjars/**",
+            "_ah/**",
             ApiUrls.LOGIN,
             ApiUrls.LOGIN + "/token",
             ApiUrls.ALIVE)
