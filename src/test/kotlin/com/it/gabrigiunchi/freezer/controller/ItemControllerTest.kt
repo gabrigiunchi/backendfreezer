@@ -167,6 +167,23 @@ class ItemControllerTest : BaseRestTest() {
     }
 
     @Test
+    fun `Should get the not expired items the logged user`() {
+        val user1 = this.createMockUser("user1")
+        val user2 = this.createMockUser("gabrigiunchi")
+
+        (1..4).map { this.createMockItem("i$it", user1) }
+        val items2 = (1..3).map { this.createMockItem("i$it", user2) }
+        (1..4).map { this.createMockItem("i$it", user2, OffsetDateTime.now().minusDays(1)) }
+
+        this.mockMvc.perform(MockMvcRequestBuilders.get("${ApiUrls.ITEMS}/me/active")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk)
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].id", Matchers.`is`(items2[0].id)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].id", Matchers.`is`(items2[1].id)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[2].id", Matchers.`is`(items2[2].id)))
+    }
+
+    @Test
     fun `Should get an item of the logged user`() {
         val user = this.createMockUser("gabrigiunchi")
         val item = this.createMockItem("dasdas", user)

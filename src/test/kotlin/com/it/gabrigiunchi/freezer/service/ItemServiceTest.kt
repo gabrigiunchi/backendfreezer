@@ -130,6 +130,20 @@ class ItemServiceTest : BaseTest() {
     }
 
     @Test
+    fun `Should get the not expired items of a user`() {
+        val user1 = this.createMockUser("user1")
+        val user2 = this.createMockUser("user2")
+
+        (1..4).map { this.createMockItem("i$it", user1) }
+        val items2 = (1..3).map { this.createMockItem("i$it", user2) }
+        (1..4).map { this.createMockItem("i$it", user2, OffsetDateTime.now().minusDays(1)) }
+
+        val result = this.itemService.getNotExpiredItemsOfUser(user2)
+
+        Assertions.assertThat(result).isEqualTo(items2)
+    }
+
+    @Test
     fun `Should not get the item of a user if it does not belong to that user`() {
         org.junit.jupiter.api.Assertions.assertThrows(ResourceNotFoundException::class.java) {
             val user1 = this.createMockUser("user1")

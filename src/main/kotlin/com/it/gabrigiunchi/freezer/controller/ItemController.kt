@@ -65,6 +65,13 @@ class ItemController(
         return ResponseEntity.ok(this.itemService.getItemsOfUser(user))
     }
 
+    @GetMapping("/me/active")
+    fun getMyNotExpiredItems(): ResponseEntity<Collection<Item>> {
+        val user = this.getLoggedUser()
+        this.logger.info("Get items of logged user #${user.id}")
+        return ResponseEntity.ok(this.itemService.getNotExpiredItemsOfUser(user))
+    }
+
     @GetMapping("/me/{id}")
     fun getMyItem(@PathVariable id: Int): ResponseEntity<Item> {
         val user = this.getLoggedUser()

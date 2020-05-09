@@ -42,14 +42,14 @@ abstract class BaseTest {
                     )
             )
 
-    fun createMockItem(name: String, user: User): Item =
+    fun createMockItem(name: String, user: User, expiredDate: OffsetDateTime = OffsetDateTime.now().plusDays(1)): Item =
             this.itemDAO.save(
                     Item(
                             name,
                             ItemType.OTHER,
                             1,
                             OffsetDateTime.now(),
-                            OffsetDateTime.now().plusDays(1),
+                            expiredDate,
                             user
                     )
             )

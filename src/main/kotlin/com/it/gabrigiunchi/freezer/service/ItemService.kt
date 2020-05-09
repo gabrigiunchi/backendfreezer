@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
+import java.time.OffsetDateTime
 
 @Service
 class ItemService(private val itemDAO: ItemDAO, private val userService: UserService) {
@@ -28,6 +29,11 @@ class ItemService(private val itemDAO: ItemDAO, private val userService: UserSer
     fun getItem(id: Int): Item {
         this.logger.info("Get item #$id")
         return this.itemDAO.findById(id).orElseThrow { ResourceNotFoundException(Item::class.java, id) }
+    }
+
+    fun getNotExpiredItemsOfUser(user: User): Collection<Item> {
+        this.logger.info("Get not expired items of user #${user.id}")
+        return this.itemDAO.findByUserAndExpirationDateAfter(user, OffsetDateTime.now())
     }
 
     fun getItemOfUser(id: Int, user: User): Item {
