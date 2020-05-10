@@ -4,8 +4,8 @@ import com.it.gabrigiunchi.freezer.dao.ItemDAO
 import com.it.gabrigiunchi.freezer.dao.UserDAO
 import com.it.gabrigiunchi.freezer.enums.ItemType
 import com.it.gabrigiunchi.freezer.enums.UserType
+import com.it.gabrigiunchi.freezer.model.AppUser
 import com.it.gabrigiunchi.freezer.model.Item
-import com.it.gabrigiunchi.freezer.model.User
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
@@ -30,9 +30,9 @@ abstract class BaseTest {
                        password: String = "aaaa",
                        type: UserType = UserType.ADMINISTRATOR,
                        name: String = "aaaa",
-                       surname: String = "bbbb"): User =
+                       surname: String = "bbbb"): AppUser =
             this.userDAO.save(
-                    User(
+                    AppUser(
                             username,
                             BCryptPasswordEncoder().encode(password),
                             name,
@@ -42,7 +42,7 @@ abstract class BaseTest {
                     )
             )
 
-    fun createMockItem(name: String, user: User, expiredDate: OffsetDateTime = OffsetDateTime.now().plusDays(1)): Item =
+    fun createMockItem(name: String, user: AppUser, expiredDate: OffsetDateTime = OffsetDateTime.now().plusDays(1)): Item =
             this.itemDAO.save(
                     Item(
                             name,

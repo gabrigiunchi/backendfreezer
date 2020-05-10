@@ -3,7 +3,7 @@ package com.it.gabrigiunchi.freezer.controller
 import com.it.gabrigiunchi.freezer.BaseRestTest
 import com.it.gabrigiunchi.freezer.constants.ApiUrls
 import com.it.gabrigiunchi.freezer.enums.UserType
-import com.it.gabrigiunchi.freezer.model.User
+import com.it.gabrigiunchi.freezer.model.AppUser
 import com.it.gabrigiunchi.freezer.model.dto.input.ChangePasswordDTO
 import com.it.gabrigiunchi.freezer.model.dto.input.UserDTOInput
 import org.assertj.core.api.Assertions
@@ -26,9 +26,9 @@ class UserControllerTest : BaseRestTest() {
     @Test
     fun `Should get all users`() {
         this.userDAO.saveAll(listOf(
-                User("gabrigiunchi1", "dsndja", "Gabriele", "Giunchi", "mail@mail.com"),
-                User("fragiunchi", "dsndja", "Francesco", "Giunchi", "mail@mail.com"),
-                User("fabiogiunchi", "dsndja", "Fabio", "Giunchi", "mail@mail.com")))
+                AppUser("gabrigiunchi1", "dsndja", "Gabriele", "Giunchi", "mail@mail.com"),
+                AppUser("fragiunchi", "dsndja", "Francesco", "Giunchi", "mail@mail.com"),
+                AppUser("fabiogiunchi", "dsndja", "Fabio", "Giunchi", "mail@mail.com")))
 
         this.mockMvc.perform(get("${ApiUrls.USERS}/page/0/size/10")
                 .contentType(MediaType.APPLICATION_JSON))
@@ -39,7 +39,7 @@ class UserControllerTest : BaseRestTest() {
 
     @Test
     fun `Should get a user given its id`() {
-        val user = this.userDAO.save(User("giggi", "ddnsakjn", "Gianni", "Riccio", "mail@mail.com"))
+        val user = this.userDAO.save(AppUser("giggi", "ddnsakjn", "Gianni", "Riccio", "mail@mail.com"))
         this.mockMvc.perform(get("${ApiUrls.USERS}/${user.id}")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk)
@@ -54,7 +54,7 @@ class UserControllerTest : BaseRestTest() {
         this.mockMvc.perform(get("${ApiUrls.USERS}/-1")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isNotFound)
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].message", Matchers.`is`("User #-1 not found")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].message", Matchers.`is`("AppUser #-1 not found")))
                 .andDo(MockMvcResultHandlers.print())
     }
 
@@ -107,7 +107,7 @@ class UserControllerTest : BaseRestTest() {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json(modified)))
                 .andExpect(MockMvcResultMatchers.status().isNotFound)
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].message", Matchers.`is`("User #-1 not found")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].message", Matchers.`is`("AppUser #-1 not found")))
                 .andDo(MockMvcResultHandlers.print())
     }
 
@@ -125,7 +125,7 @@ class UserControllerTest : BaseRestTest() {
         mockMvc.perform(delete("${ApiUrls.USERS}/-1")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isNotFound)
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].message", Matchers.`is`("User #-1 not found")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].message", Matchers.`is`("AppUser #-1 not found")))
                 .andDo(MockMvcResultHandlers.print())
     }
 

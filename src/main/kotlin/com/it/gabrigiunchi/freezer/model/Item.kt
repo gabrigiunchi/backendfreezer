@@ -23,16 +23,16 @@ class Item(
 
         @ManyToOne
         @OnDelete(action = OnDeleteAction.CASCADE)
-        val user: User
+        val user: AppUser
 ) {
 
-    constructor(name: String, type: ItemType, quantity: Int, storeDate: OffsetDateTime, expirationDate: OffsetDateTime?, user: User) :
+    constructor(name: String, type: ItemType, quantity: Int, storeDate: OffsetDateTime, expirationDate: OffsetDateTime?, user: AppUser) :
             this(-1, name, type, quantity, storeDate, expirationDate, "", user)
 
-    constructor(name: String, type: ItemType, quantity: Int, storeDate: OffsetDateTime, expirationDate: OffsetDateTime?, note: String, user: User) :
+    constructor(name: String, type: ItemType, quantity: Int, storeDate: OffsetDateTime, expirationDate: OffsetDateTime?, note: String, user: AppUser) :
             this(-1, name, type, quantity, storeDate, expirationDate, note, user)
 
-    constructor(id: Int, dto: CreateItemDTO, user: User) : this(
+    constructor(id: Int, dto: CreateItemDTO, user: AppUser) : this(
             id,
             dto.name,
             dto.type,

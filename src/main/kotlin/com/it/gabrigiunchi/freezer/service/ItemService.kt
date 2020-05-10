@@ -2,8 +2,8 @@ package com.it.gabrigiunchi.freezer.service
 
 import com.it.gabrigiunchi.freezer.dao.ItemDAO
 import com.it.gabrigiunchi.freezer.exceptions.ResourceNotFoundException
+import com.it.gabrigiunchi.freezer.model.AppUser
 import com.it.gabrigiunchi.freezer.model.Item
-import com.it.gabrigiunchi.freezer.model.User
 import com.it.gabrigiunchi.freezer.model.dto.input.CreateItemDTO
 import org.slf4j.LoggerFactory
 import org.springframework.data.domain.Page
@@ -21,7 +21,7 @@ class ItemService(private val itemDAO: ItemDAO, private val userService: UserSer
         return this.itemDAO.findAll(PageRequest.of(page, size))
     }
 
-    fun getItemsOfUser(user: User): Collection<Item> {
+    fun getItemsOfUser(user: AppUser): Collection<Item> {
         this.logger.info("Get items of user ${user.id}")
         return this.itemDAO.findByUser(user)
     }
@@ -31,17 +31,17 @@ class ItemService(private val itemDAO: ItemDAO, private val userService: UserSer
         return this.itemDAO.findById(id).orElseThrow { ResourceNotFoundException(Item::class.java, id) }
     }
 
-    fun getNotExpiredItemsOfUser(user: User): Collection<Item> {
+    fun getNotExpiredItemsOfUser(user: AppUser): Collection<Item> {
         this.logger.info("Get not expired items of user #${user.id}")
         return this.itemDAO.findByUserAndExpirationDateAfter(user, OffsetDateTime.now())
     }
 
-    fun getItemOfUser(id: Int, user: User): Item {
+    fun getItemOfUser(id: Int, user: AppUser): Item {
         this.logger.info("Get item #$id of user #${user.id}")
         return this.itemDAO.findByIdAndUser(id, user).orElseThrow { ResourceNotFoundException(Item::class.java, id) }
     }
 
-    fun createItem(dto: CreateItemDTO, user: User): Item {
+    fun createItem(dto: CreateItemDTO, user: AppUser): Item {
         this.logger.info("Create new item for user #${user.id}")
         return this.itemDAO.save(Item(
                 dto.name,
@@ -54,7 +54,7 @@ class ItemService(private val itemDAO: ItemDAO, private val userService: UserSer
         ))
     }
 
-    fun updateItem(dto: CreateItemDTO, id: Int, user: User): Item {
+    fun updateItem(dto: CreateItemDTO, id: Int, user: AppUser): Item {
         this.logger.info("Update item #$id of user ${user.id}")
         this.getItemOfUser(id, user)
         return this.itemDAO.save(Item(id, dto, user))
@@ -65,7 +65,7 @@ class ItemService(private val itemDAO: ItemDAO, private val userService: UserSer
         this.itemDAO.delete(this.getItem(id))
     }
 
-    fun deleteItemOfUser(id: Int, user: User) {
+    fun deleteItemOfUser(id: Int, user: AppUser) {
         this.logger.info("Delete item #$id of user ${user.id}")
         this.itemDAO.delete(this.getItemOfUser(id, user))
     }

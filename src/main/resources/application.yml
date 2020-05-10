@@ -10,10 +10,17 @@ security:
 
 spring:
   datasource:
-    driver-class-name: org.h2.Driver
-    password: xflj1sll^jc1k7vt
-    url: jdbc:h2:mem:db;DB_CLOSE_DELAY=-1
-    username: gqx90291
+    hikari:
+      max-active: 5
+    max-active: 5
+    tomcat:
+      max-active: 5
+    driver-class-name: org.postgresql.Driver
+    password: ul9yp8hclPjOodBl
+    url: jdbc:postgresql:///postgres?cloudSqlInstance=freezer-276212:europe-west1:postgredb&socketFactory=com.google.cloud.sql.postgres.SocketFactory&user=postgres&password=ul9yp8hclPjOodBl
+    username: postgres
   jpa:
+    properties:
+      hibernate: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: create

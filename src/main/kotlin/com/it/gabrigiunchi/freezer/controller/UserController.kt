@@ -3,7 +3,7 @@ package com.it.gabrigiunchi.freezer.controller
 import com.it.gabrigiunchi.freezer.dao.UserDAO
 import com.it.gabrigiunchi.freezer.exceptions.ResourceAlreadyExistsException
 import com.it.gabrigiunchi.freezer.exceptions.ResourceNotFoundException
-import com.it.gabrigiunchi.freezer.model.User
+import com.it.gabrigiunchi.freezer.model.AppUser
 import com.it.gabrigiunchi.freezer.model.dto.input.ChangePasswordDTO
 import com.it.gabrigiunchi.freezer.model.dto.input.UserDTOInput
 import com.it.gabrigiunchi.freezer.model.dto.output.UserDTOOutput
@@ -30,11 +30,11 @@ class UserController(private val userDAO: UserDAO, private val userService: User
     }
 
     @GetMapping("/{id}")
-    fun getUserByid(@PathVariable id: Int): ResponseEntity<User> {
+    fun getUserByid(@PathVariable id: Int): ResponseEntity<AppUser> {
         this.logger.info("GET user #$id")
         return this.userDAO.findById(id)
                 .map { ResponseEntity.ok(it) }
-                .orElseThrow { ResourceNotFoundException(User::class.java, id) }
+                .orElseThrow { ResourceNotFoundException(AppUser::class.java, id) }
     }
 
     @PreAuthorize("hasAuthority('ADMINISTRATOR')")
@@ -61,7 +61,7 @@ class UserController(private val userDAO: UserDAO, private val userService: User
     @DeleteMapping("/{id}")
     fun deleteUser(@PathVariable id: Int): ResponseEntity<Void> {
         this.logger.info("DELETE user #$id")
-        val user = this.userDAO.findById(id).orElseThrow { ResourceNotFoundException(User::class.java, id) }
+        val user = this.userDAO.findById(id).orElseThrow { ResourceNotFoundException(AppUser::class.java, id) }
         this.userDAO.delete(user)
         return ResponseEntity(HttpStatus.NO_CONTENT)
     }
@@ -70,7 +70,7 @@ class UserController(private val userDAO: UserDAO, private val userService: User
     @PatchMapping("/{id}/active/{active}")
     fun enableUser(@PathVariable id: Int, @PathVariable active: Boolean): ResponseEntity<Void> {
         this.logger.info("PATCH to set user #$id active=$active")
-        val user = this.userDAO.findById(id).orElseThrow { ResourceNotFoundException(User::class.java, id) }
+        val user = this.userDAO.findById(id).orElseThrow { ResourceNotFoundException(AppUser::class.java, id) }
         user.active = active
         this.userDAO.save(user)
         return ResponseEntity(HttpStatus.OK)

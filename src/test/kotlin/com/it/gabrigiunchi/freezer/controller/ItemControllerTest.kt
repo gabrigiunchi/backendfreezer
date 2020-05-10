@@ -129,7 +129,7 @@ class ItemControllerTest : BaseRestTest() {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json(dto)))
                 .andExpect(MockMvcResultMatchers.status().isNotFound)
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].message", Matchers.`is`("User #-1 not found")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].message", Matchers.`is`("AppUser #-1 not found")))
     }
 
     @Test

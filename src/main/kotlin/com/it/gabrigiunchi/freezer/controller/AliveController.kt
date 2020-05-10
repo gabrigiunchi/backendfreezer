@@ -1,7 +1,7 @@
 package com.it.gabrigiunchi.freezer.controller
 
 import com.it.gabrigiunchi.freezer.dao.UserDAO
-import com.it.gabrigiunchi.freezer.model.User
+import com.it.gabrigiunchi.freezer.model.AppUser
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
@@ -21,7 +21,7 @@ class AliveController(userDAO: UserDAO) : BaseController(userDAO) {
             ResponseEntity.ok(mapOf(Pair("message", "Everything's fine"), Pair("version", this.version)))
 
     @GetMapping("/me")
-    fun whoAmI(): ResponseEntity<User> = ResponseEntity.ok(this.getLoggedUser())
+    fun whoAmI(): ResponseEntity<AppUser> = ResponseEntity.ok(this.getLoggedUser())
 
     @GetMapping("/me/admin")
     fun amIAdmin(): ResponseEntity<Map<String, String>> =

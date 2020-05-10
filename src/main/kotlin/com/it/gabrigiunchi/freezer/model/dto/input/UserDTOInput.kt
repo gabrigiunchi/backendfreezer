@@ -1,7 +1,7 @@
 package com.it.gabrigiunchi.freezer.model.dto.input
 
 import com.it.gabrigiunchi.freezer.enums.UserType
-import com.it.gabrigiunchi.freezer.model.User
+import com.it.gabrigiunchi.freezer.model.AppUser
 
 class UserDTOInput(
         val username: String,
@@ -16,7 +16,7 @@ class UserDTOInput(
     constructor(username: String, password: String, name: String, surname: String, email: String, type: UserType) :
             this(username, password, name, surname, email, type, true)
 
-    constructor(user: User) :
+    constructor(user: AppUser) :
             this(user.username, user.password, user.name, user.surname, user.email,
                     user.type, user.active)
 }

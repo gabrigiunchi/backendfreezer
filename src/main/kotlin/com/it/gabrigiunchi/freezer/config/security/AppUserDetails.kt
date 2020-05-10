@@ -1,12 +1,12 @@
 package com.it.gabrigiunchi.freezer.config.security
 
-import com.it.gabrigiunchi.freezer.model.User
+import com.it.gabrigiunchi.freezer.model.AppUser
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 import java.time.OffsetDateTime
 
-class AppUserDetails(val user: User) : UserDetails {
+class AppUserDetails(val user: AppUser) : UserDetails {
 
     override fun getAuthorities(): Collection<GrantedAuthority?>? {
         return listOf(SimpleGrantedAuthority(user.type.name))

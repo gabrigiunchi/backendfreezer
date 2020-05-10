@@ -5,7 +5,7 @@ import java.time.OffsetDateTime
 import javax.persistence.*
 
 @Entity
-class User(
+class AppUser(
         @Id
         @GeneratedValue(strategy = GenerationType.AUTO)
         val id: Int,
@@ -27,7 +27,7 @@ class User(
 
     constructor(username: String, password: String, name: String, surname: String, email: String, type: UserType) :
             this(-1, username, password, name, surname, email, type, OffsetDateTime.now(),
-                    OffsetDateTime.MAX)
+                    OffsetDateTime.now().plusYears(1000))
 
 
     constructor(username: String, password: String, name: String, surname: String, email: String) :

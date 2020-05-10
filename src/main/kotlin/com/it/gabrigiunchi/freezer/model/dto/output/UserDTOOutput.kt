@@ -1,6 +1,6 @@
 package com.it.gabrigiunchi.freezer.model.dto.output
 
-import com.it.gabrigiunchi.freezer.model.User
+import com.it.gabrigiunchi.freezer.model.AppUser
 
 
 data class UserDTOOutput(
@@ -10,5 +10,5 @@ data class UserDTOOutput(
         val surname: String,
         val email: String) {
 
-    constructor(user: User) : this(user.id, user.username, user.name, user.surname, user.email)
+    constructor(user: AppUser) : this(user.id, user.username, user.name, user.surname, user.email)
 }
