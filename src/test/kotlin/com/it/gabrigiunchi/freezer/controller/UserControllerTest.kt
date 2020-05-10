@@ -153,7 +153,7 @@ class UserControllerTest : BaseRestTest() {
         mockMvc.perform(patch("${ApiUrls.USERS}/-1/active/false")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isNotFound)
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].message", Matchers.`is`("User #-1 not found")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].message", Matchers.`is`("AppUser #-1 not found")))
                 .andDo(MockMvcResultHandlers.print())
     }
 
