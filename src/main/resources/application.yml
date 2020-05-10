@@ -1,5 +1,5 @@
 application:
-  version: 0.3.0
+  version: 0.3.1
   initDB: true
 
 security:
@@ -10,11 +10,6 @@ security:
 
 spring:
   datasource:
-    hikari:
-      max-active: 5
-    max-active: 5
-    tomcat:
-      max-active: 5
     driver-class-name: org.postgresql.Driver
     password: ul9yp8hclPjOodBl
     url: jdbc:postgresql:///postgres?cloudSqlInstance=freezer-276212:europe-west1:postgredb&socketFactory=com.google.cloud.sql.postgres.SocketFactory&user=postgres&password=ul9yp8hclPjOodBl
