@@ -34,6 +34,22 @@ class ItemControllerTest : BaseRestTest() {
     }
 
     @Test
+    fun `Should get all items of a user`() {
+        val user1 = this.createMockUser("dadas")
+        val user2 = this.createMockUser("dadsad")
+        (1..4).map { this.createMockItem("dasd", user1) }
+        val items = (1..3).map { this.createMockItem("i$it", user2) }
+
+        this.mockMvc.perform(MockMvcRequestBuilders.get("${ApiUrls.ITEMS}/user/${user2.id}")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk)
+                .andExpect(MockMvcResultMatchers.jsonPath("$.length()", Matchers.`is`(3)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].id", Matchers.`is`(items[0].id)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].id", Matchers.`is`(items[1].id)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[2].id", Matchers.`is`(items[2].id)))
+    }
+
+    @Test
     fun `Should get an item`() {
         val user = this.createMockUser("dadsa")
         val item = this.createMockItem("dadsa", user)

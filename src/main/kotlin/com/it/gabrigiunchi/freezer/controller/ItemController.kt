@@ -30,6 +30,13 @@ class ItemController(
     }
 
     @PreAuthorize("hasAuthority('ADMINISTRATOR')")
+    @GetMapping("/user/{userId}")
+    fun getItemsOfUser(@PathVariable userId: Int): ResponseEntity<Collection<Item>> {
+        this.logger.info("Get items of user $userId")
+        return ResponseEntity.ok(this.itemService.getItemsOfUser(this.userService.getUser(userId)))
+    }
+
+    @PreAuthorize("hasAuthority('ADMINISTRATOR')")
     @GetMapping("/{id}")
     fun getItem(@PathVariable id: Int): ResponseEntity<Item> {
         this.logger.info("Get item #$id")
